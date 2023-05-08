@@ -1,13 +1,13 @@
-# Moodify -- The Spotify Playlist Maker
+# doompl -- The Spotify Playlist Maker
 
-## Problem
-Finding the perfect playlist for a specific mood or situation can be a challenge, with so many songs and genres available. 
-
-## Solution
-Spotify Playlist Maker is a web application that solves this problem. It allows users to select a mood or situation, and generates a Spotify playlist based on their selection. 
+## About the Project
+Finding the perfect playlist for a specific mood or situation can be a challenge, with so many songs and genres available.
+With doompl, just choose what you're feeling and we'll generate a Spotify playlist for you! 
 
 ## Built With
 - React
+- TypeScript
+- Node.js
 - Express
 - PostgreSQL
 - MaterialUI
