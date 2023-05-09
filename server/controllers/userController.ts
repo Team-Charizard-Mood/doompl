@@ -77,6 +77,12 @@ userController.createUser = async (
 ) => {
   try {
     const { username, access_token, refresh_token } = res.locals;
+    const findUser = `SELECT FROM Users WHERE Users.username = '${username}'`;
+    console.log('here')
+    const response = await query(findUser);
+    console.log(response);
+    if (response.rowCount) return next();
+
     const insertUser = `INSERT INTO Users (username, access_token, refresh_token) VALUES ($1, $2, $3)`;
     const insertQuery = {
       name: "insertUser",
