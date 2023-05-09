@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box, Button, Typography, TextField } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 
 
-export default function Moods() {
+export default function Moods(): JSX.Element {
 	return (
 		<Box sx={{margin: 'auto', width: '50vw', textAlign: 'center'}}>
       	<Typography sx={{fontSize: 28, fontWeight: 900}}>Moods/Situations</Typography>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, Typography, TextField } from '@mui/material';
 
-export default function Create() {
+export default function Create(): JSX.Element {
 	return (
 		<Box sx={{margin: 'auto', width: '50vw', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 2}}>
       	<Typography sx={{fontSize: 28, fontWeight: 900}}>Create Your Playlist</Typography>
