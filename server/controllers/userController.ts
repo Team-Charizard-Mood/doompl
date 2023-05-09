@@ -1,21 +1,10 @@
-import { Express, Request, Response, NextFunction } from 'express';
-import query from '../models/userModel';
-import querystring from 'querystring';
+import { Express, Request, Response, NextFunction } from "express";
+import query from "../models/userModel";
+import querystring from "querystring";
 
-const clientId = '421affcdfd2342e6a75ef5a02502430b';
-const clientSecret = 'e76eb2dcef0c48aa8856d40cc4fc1483';
-const redirectUri = 'http://localhost:8080/api/auth';
-
-function generateRandomString(length: number): string {
-  let text = '';
-  let possible =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-}
+const clientId = "421affcdfd2342e6a75ef5a02502430b";
+const clientSecret = "e76eb2dcef0c48aa8856d40cc4fc1483";
+const redirectUri = "http://localhost:8080/api/auth";
 
 const userController = {} as any;
 
@@ -23,129 +12,111 @@ userController.logIn = function (
   req: Request,
   res: Response,
   next: NextFunction
-) {
-  const state = generateRandomString(16);
-  const scope = 'user-read-private user-read-email';
-  //   console.log(querystring.stringify({
-  //     response_type: 'code',
-  //     client_id: clientId,
-  //     scope: scope,
-  //     redirect_uri: redirectUri,
-  //     state: state,
-  //   }));
-  res.send(
-    'https://accounts.spotify.com/authorize?' +
-      querystring.stringify({
-        response_type: 'code',
-        client_id: clientId,
-        scope: scope,
-        redirect_uri: redirectUri,
-        state: state,
-      })
-  );
-};
+) {};
 
 userController.callback = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const code = req.query.code || null;
-  const state = req.query.state || null;
+  try {
+    const code = req.query.code || null;
+    const state = req.query.state || null;
 
-  if (state === null) {
-    res.redirect(
-      '/#' +
-        querystring.stringify({
-          error: 'state_mismatch',
-        })
-    );
-  } else {
-    // let authOptions = {
-    //   url: 'https://accounts.spotify.com/api/token',
-    //   form: {
-    //     code: code,
-    //     redirect_uri: redirectUri,
-    //     grant_type: 'authorization_code',
-    //   },
-    //   headers: {
-    //     Authorization:
-    //       'Basic ' +
-    //       new Buffer(clientId + ':' + clientSecret).toString('base64'),
-    //   },
-    //   json: true,
-    // };
-    const data: any = await fetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      headers: {
-        Authorization:
-          'Basic ' +
-          new Buffer(clientId + ':' + clientSecret).toString('base64'),
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: {
-        grant_type: 'authorization_code',
-        code: code,
-        redirect_uri: redirectUri,
-			} as any,
+    if (state === null) {
+      res.redirect(
+        "/#" +
+          querystring.stringify({
+            error: "state_mismatch",
+          })
+      );
+    } else {
+      const data: any = await fetch("https://accounts.spotify.com/api/token", {
+        method: "POST",
+        headers: {
+          Authorization:
+            "Basic " +
+            Buffer.from(clientId + ":" + clientSecret).toString("base64"),
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        // body: `grant_type=authorization_code&code=${code}&redirect_uri=${redirectUri}`
+        body: querystring.stringify({
+          grant_type: "authorization_code",
+          code: code as string,
+          redirect_uri: redirectUri,
+        }) as any,
+      });
+      const json: any = await data.json();
+      res.locals.access_token = json.access_token;
+      res.locals.refresh_token = json.refresh_token;
+      console.log("data: ", json);
+
+      const userData = await fetch("https://api.spotify.com/v1/me", {
+        headers: {
+          Authorization: "Bearer " + json.access_token,
+        },
+      });
+      const userJSON = await userData.json();
+      res.locals.username = userJSON.id;
+      console.log("user data --------> ", userJSON);
+      return next();
+    }
+  } catch (err) {
+    return next({
+      log: "Error in userController.callback: " + err,
+      status: 500,
+      message: { err: "An error occurred in userController.callback" },
     });
-    const json: any = await data.json();
-    res.locals.access_token = json.access_token;
-    console.log('data: ', json);
-    return next();
   }
 };
 
-//   }
-// };
+userController.createUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { username, access_token, refresh_token } = res.locals;
+    const insertUser = `INSERT INTO Users (username, access_token, refresh_token) VALUES ($1, $2, $3)`;
+    const insertQuery = {
+      name: "insertUser",
+      text: insertUser,
+      values: [username, access_token, refresh_token],
+    };
+    const user = await query(insertQuery);
+    res.locals.id = user.id;
+    return next();
+  } catch (err) {
+    return next({
+      log: "Error in userController.createUser: " + err,
+      status: 500,
+      message: { err: "An error occurred in userController.createUser" },
+    });
+  }
+};
 
 // userController.refresh = async (
 //   req: Request,
 //   res: Response,
 //   next: NextFunction
 // ) => {
-//   let refresh_token = req.query.refresh_token;
+//   // let refresh_token = req.query.refresh_token;
+//   // const getRefreshToken = `SELECT FROM Users WHERE Users.username = `;
+
 //   var authOptions = {
-//     url: 'https://accounts.spotify.com/api/token',
+//     url: "https://accounts.spotify.com/api/token",
 //     headers: {
 //       Authorization:
-//         'Basic ' +
-//         new Buffer.from(clientId + ':' + clientSecret).toString('base64'),
+//         "Basic " +
+//         new Buffer.from(clientId + ":" + clientSecret).toString("base64"),
 //     },
 //     form: {
-//       grant_type: 'refresh_token',
+//       grant_type: "refresh_token",
 //       refresh_token: refresh_token,
 //     },
 //     json: true,
 //   };
-
-//   equest.post(authOptions, function (error, response, body) {
-//     if (!error && response.statusCode === 200) {
-//       var access_token = body.access_token;
-//       res.send({
-//         access_token: access_token,
-//       });
-
-// const data = await fetch('https://accounts.spotify.com/api/token', {
-//   method: 'POST',
-//   headers: {
-//     Authorization:
-//       'Basic ' + new Buffer(clientId + ':' + clientSecret).toString('base64'),
-//     'Content-Type': 'application/x-www-form-urlencoded',
-//   },
-//   body: JSON.stringify({
-//     refresh_token: refresh_token,
-//     grant_type: 'refresh_token',
-//   }),
-// });
-
-// const { access_token } = data;
-// if(access_token) {
-//   res.status(200);
-//   res.json({ success: true, access_token });
-// }
-
-// });
 // };
+
 
 export default userController;
