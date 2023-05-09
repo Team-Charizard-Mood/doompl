@@ -7,9 +7,9 @@ import Create from './components/Create';
 export default function App(): JSX.Element {
     return (
         <Box sx={{margin: 'auto'}}>
-            {/* <Login /> */}
+            <Login />
             {/* <Create /> */}
-            <Moods />
+            {/* <Moods /> */}
         </Box>
     )
 };
