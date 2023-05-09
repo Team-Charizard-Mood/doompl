@@ -1,7 +1,15 @@
 import React from 'react';
+import Login from './components/Login';
+import { Box } from '@mui/material';
+import Moods from './components/Moods';
+import Create from './components/Create';
 
-export default function App() {
+export default function App(): JSX.Element {
     return (
-        <div>Hello World</div>
+        <Box sx={{margin: 'auto'}}>
+            {/* <Login /> */}
+            {/* <Create /> */}
+            <Moods />
+        </Box>
     )
 };

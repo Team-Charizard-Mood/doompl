@@ -1,7 +1,7 @@
 {
-  "name": "reinforcement-project",
+  "name": "doompl",
   "version": "1.0.0",
-  "description": "Generates a Spotify playlist based on selected moods.",
+  "description": "Generate a Spotify playlist based on selected moods.",
   "main": "./client/index.tsx",
   "scripts": {
     "start": "NODE_ENV=production node server/server.ts",
