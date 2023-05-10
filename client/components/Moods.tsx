@@ -92,7 +92,6 @@ export default function Moods(): JSX.Element {
 		seed_genres: 'trip-hop,disney,minimal-techno'
 	}
 
-
 	return (
 		<Box sx={{margin: 'auto', width: '50vw', textAlign: 'center'}}>
       	<Typography sx={{fontSize: 28, fontWeight: 900}}>Moods/Situations</Typography>
