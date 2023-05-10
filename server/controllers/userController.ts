@@ -117,7 +117,7 @@ userController.getUser = async (req: Request, res: Response, next: NextFunction)
         }) as any,
       });
   const json: any = await data.json();
-  console.log(json.access_token);
+  console.log('access token:', json.access_token);
   res.locals.access_token = json.access_token;
   return next();
 }

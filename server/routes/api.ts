@@ -13,7 +13,7 @@ router.get('/login', userController.logIn, (req: Request, res: Response) => {
 });
 
 router.get('/auth', userController.callback, userController.createUser, cookieController.setCookie, (req: Request, res: Response) => {
-	res.redirect('/');
+	res.redirect('/create');
 });
 
 export default router;

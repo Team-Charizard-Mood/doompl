@@ -6,35 +6,30 @@ const playlistController = {} as any;
 
 playlistController.getRecommendations = async (req: Request, res: Response, next: NextFunction) => {
     const { access_token } = res.locals;
-    // const { max_acousticness, max_danceability } = req.body; 
+    const { playlistName, mood, recommendationQuery  } = req.body; 
+    // console.log('req.body', recommendationQuery);
 
-    const recommendationQuery = querystring.stringify({
-        seed_artists: '4NHQUGzhtTLFvgF5SZesLK',
-        seed_genres: 'classical',
-        seed_tracks: '0c6xIDDpzE81m2q797ordA',
-        max_acousticness: 0.35,
-        max_danceability: 0.35,
-    })
-
-    const recommendationList = await fetch('https://api.spotify.com/v1/recommendations?' + recommendationQuery, {
+    const recommendationList = await fetch('https://api.spotify.com/v1/recommendations?' + querystring.stringify(recommendationQuery), {
         headers: {
             Authorization: "Bearer " + access_token,         
             "Content-Type": "application/x-www-form-urlencoded",
         }
     });
     const decodedRecommendationList = await recommendationList.json();
-    // console.log(decodedRecommendationList);
+    // console.log("decoded: ", decodedRecommendationList);
     res.locals.decodedRecommendationList = decodedRecommendationList;
+    res.locals.mood = mood;
+    res.locals.playlistName = playlistName;
     return next();
 }
 
 playlistController.createPlaylist = async (req: Request, res: Response, next: NextFunction) => {
-    const { access_token } = res.locals;
+    const { access_token, mood, playlistName } = res.locals;
     const { username } = req.cookies;
 
     const playListDetails = JSON.stringify({
-        name: 'Charizard',
-        description: 'New playlist description',
+        name: playlistName,
+        description: 'Made by doompl - ' + mood,
         public: false
     });
     const playlist = await fetch(`https://api.spotify.com/v1/users/${username}/playlists`, {
@@ -46,9 +41,7 @@ playlistController.createPlaylist = async (req: Request, res: Response, next: Ne
         body: playListDetails
     });
 
-    const x = await playlist.json(); 
-
-    const {id} = x; 
+    const {id, external_urls: spotify} = await playlist.json();; 
 
     const songUris = [];
     for (const el of res.locals.decodedRecommendationList.tracks) {
@@ -56,17 +49,31 @@ playlistController.createPlaylist = async (req: Request, res: Response, next: Ne
     }
     console.log(songUris);
     const itemsForPlaylist: any = JSON.stringify({ uris: songUris, position: 0 })
-    const y = await fetch(`https://api.spotify.com/v1/playlists/${id}/tracks`, {
+    const trackResponse = await fetch(`https://api.spotify.com/v1/playlists/${id}/tracks`, {
         method: 'POST',
         headers: {
             Authorization: "Bearer " + access_token,         
             "Content-Type": "application/x-www-form-urlencoded",
         },
         body: itemsForPlaylist   
-    })
-    const z = await y.json();
-    console.log(z);
-    res.locals.url = x.external_urls.spotify;
+    });
+    const trackResponseJson = await trackResponse.json();
+    res.locals.url = spotify.spotify;
+
+    console.log('mood:', mood, 'spotify: ', spotify);
+
+    const addPlaylistQuery = `INSERT INTO Playlists (mood, url, name, username) VALUES ('${mood}','${spotify.spotify}','${playlistName}','${username}')`;
+    query(addPlaylistQuery);
+    return next();
+}
+
+playlistController.getPlaylists = async (req: Request, res: Response, next: NextFunction) => {
+    const { username } = req.cookies;
+
+    const getPlaylistQuery = `SELECT mood, url, name FROM Playlists JOIN Users ON Users.username = Playlists.username WHERE Users.username = '${username}'`;
+    const playlists = await query(getPlaylistQuery);
+    // console.log(playlists.rows);
+    res.locals.playlists = playlists.rows;
     return next();
 }
 
