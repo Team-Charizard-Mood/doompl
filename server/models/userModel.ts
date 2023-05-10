@@ -3,7 +3,6 @@ import dotenv from 'dotenv'
 dotenv.config();
 
 const PG_URI = process.env.PG_URI;
-// const PG_URI = 'postgres://htefxrkr:aP-bOwlNcJEmj4bA1JPld5JqL994JNc_@drona.db.elephantsql.com/htefxrkr'
 
 const pool = new Pool({
     connectionString: PG_URI
