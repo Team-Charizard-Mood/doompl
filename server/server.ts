@@ -17,6 +17,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(express.static(__dirname + '/client'));
 
 // API Router
 // const router: Router = express.Router();
