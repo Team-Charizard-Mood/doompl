@@ -39,7 +39,6 @@ userController.callback = async (
             Buffer.from(clientId + ":" + clientSecret).toString("base64"),
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        // body: `grant_type=authorization_code&code=${code}&redirect_uri=${redirectUri}`
         body: querystring.stringify({
           grant_type: "authorization_code",
           code: code as string,
@@ -76,21 +75,21 @@ userController.createUser = async (
   next: NextFunction
 ) => {
   try {
-    const { username, access_token, refresh_token } = res.locals;
+    const { username } = res.locals;
     const findUser = `SELECT FROM Users WHERE Users.username = '${username}'`;
-    console.log('here')
     const response = await query(findUser);
-    console.log(response);
     if (response.rowCount) return next();
 
-    const insertUser = `INSERT INTO Users (username, access_token, refresh_token) VALUES ($1, $2, $3)`;
+    const insertUser = `INSERT INTO Users (username) VALUES ($1)`;
     const insertQuery = {
       name: "insertUser",
       text: insertUser,
-      values: [username, access_token, refresh_token],
+      values: [username],
     };
-    const user = await query(insertQuery);
-    res.locals.id = user.id;
+    query(insertQuery);
+    // const user = await query(insertQuery);
+    // console.log(user);
+    // res.locals.id = user.id;
     return next();
   } catch (err) {
     return next({
@@ -100,6 +99,28 @@ userController.createUser = async (
     });
   }
 };
+
+userController.getUser = async (req: Request, res: Response, next: NextFunction) => {
+  const { refresh_token } = req.cookies;
+
+  const data: any = await fetch("https://accounts.spotify.com/api/token", {
+        method: "POST",
+        headers: {
+          Authorization:
+            "Basic " +
+            Buffer.from(clientId + ":" + clientSecret).toString("base64"),
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: querystring.stringify({
+          grant_type: "refresh_token",
+          refresh_token: refresh_token,
+        }) as any,
+      });
+  const json: any = await data.json();
+  console.log(json.access_token);
+  res.locals.access_token = json.access_token;
+  return next();
+}
 
 // userController.refresh = async (
 //   req: Request,

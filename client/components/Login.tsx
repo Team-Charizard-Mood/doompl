@@ -23,7 +23,7 @@ function generateRandomString(length: number): string {
 }
 
 const state = generateRandomString(16);
-const scope = 'user-read-private user-read-email';
+const scope = 'user-read-private user-read-email playlist-modify-public playlist-modify-private';
 
 	const handleLogin = async () => {
 		window.location.href = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${scope}&redirect_uri=${redirectUri}&state=${state}`;
