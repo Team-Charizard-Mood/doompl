@@ -23,21 +23,20 @@ export default function Account({username}) {
   }, [])
 
   return (
-    <Box sx={{ width: '100%', maxWidth: 360 }}>
-      <Typography></Typography>
-      <nav aria-label="main mailbox folders">
-        <List sx={{width: '100vw', margin: 'auto', display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center'}}>
+    <Box sx={{ marginTop: '100px', width: '100%', maxWidth: '100%' }}>
+      <Typography fontFamily='Montserrat' sx={{textAlign: 'center', fontSize: '28px', fontWeight: '600'}}>hi, {username}! &#129312;</Typography>
+      <Typography fontFamily='Montserrat' sx={{textAlign: 'center', fontSize: '18px', fontWeight: '500', marginBottom: '20px'}}>here are your past playlists:</Typography>
+        <List sx={{width: '80vw', margin: 'auto', display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center'}}>
         {playlists?.map(playlist => (
-            <ListItem disablePadding sx={{width: 500, display: 'flex', flexDirection: 'column', gap: 1, textAlign: 'center', border: '2px solid black'}}>
-            <Typography variant='h6'>{playlist.name}</Typography>
-              <Typography variant='h6'>{playlist.mood}</Typography>
+            <ListItem sx={{width: 520, display: 'flex', flexDirection: 'column', textAlign: 'center', border: '1.5px solid #7390FB'}}>
+            <Typography fontFamily='Montserrat' variant='h6' sx={{fontSize: '20px'}}>{playlist.name}</Typography>
+              <Typography fontFamily='Montserrat' variant='h6' sx={{fontSize: '18px'}}>mood: {playlist.mood}</Typography>
               <ListItemButton>
-                <Link to={playlist.url} target='_blank'>{playlist.url}</Link>
+                <Typography fontFamily='Montserrat'><Link style={{textDecoration: 'none'}} to={playlist.url} target='_blank'>{playlist.url}</Link></Typography>
               </ListItemButton>
             </ListItem>
           )) as any}
         </List>
-      </nav>
     </Box>
   );
 }

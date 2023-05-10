@@ -30,10 +30,10 @@ const scope = 'user-read-private user-read-email playlist-modify-public playlist
 	}
 	
 	return (
-		<Box sx={{margin: '100px auto', width: '50vw', textAlign: 'center'}}>
-			<Typography sx={{fontSize: 50, fontWeight: 900}}>doompl</Typography>
-      <Typography sx={{marginBottom: '50px'}}>Generate a Spotify playlist based on your mood or situation &#128526;</Typography>
-			<Button onClick={handleLogin} sx={{display: 'flex', gap: 1, margin: 'auto'}} variant='contained'><Typography>Login with Spotify</Typography><SvgIcon>{logo}</SvgIcon></Button>
+		<Box sx={{margin: '150px auto', width: '50vw', textAlign: 'center'}}>
+			<Typography fontFamily='Montserrat' sx={{fontSize: 70, fontWeight: 900 }}>doompl</Typography>
+      <Typography fontFamily='Montserrat' sx={{marginBottom: '40px', fontSize: "20px"}}>generate a Spotify playlist based on your mood or situation &#128526;</Typography>
+			<Button onClick={handleLogin} sx={{display: 'flex', gap: 1, margin: 'auto', backgroundColor: "#7390FB"}} variant='contained'><Typography fontFamily='Montserrat' sx={{fontSize: '20px'}}>Login with Spotify</Typography><SvgIcon>{logo}</SvgIcon></Button>
 		</Box>
 	)
 }
