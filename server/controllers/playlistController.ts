@@ -7,7 +7,6 @@ const playlistController = {} as any;
 playlistController.getRecommendations = async (req: Request, res: Response, next: NextFunction) => {
     const { access_token } = res.locals;
     const { playlistName, mood, recommendationQuery  } = req.body; 
-    // console.log('req.body', recommendationQuery);
 
     const recommendationList = await fetch('https://api.spotify.com/v1/recommendations?' + querystring.stringify(recommendationQuery), {
         headers: {
