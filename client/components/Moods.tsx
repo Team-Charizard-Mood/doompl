@@ -12,14 +12,87 @@ export default function Moods(): JSX.Element {
 	}
 	
 	const happy = {
-		seed_artists: '2RdwBSPQiwcmiDo9kixcl8',
+		seed_artists: '6sFIWsNpZYqfjUpaCgueju',
 		seed_tracks: '1cH4YlAyj4dtofkNil6iGl',
-		seed_genres: 'dance,electronic,pop,happy',
+		seed_genres: 'dance,electronic,pop,happy,k-pop',
 		target_energy: '0.6',
 		target_danceability: '0.6'
 	}
 
-	
+	const sad = {
+		seed_artists: '6qqNVTkY8uBg9cP3Jd7DAH',
+		seed_tracks: '08k2iMu7BkMTsJV6MkJVxO',
+		seed_genres: 'sad,emo',
+		target_energy: '0.2',
+		target_danceability: '0'
+	}
+
+	const chill = {
+		seed_artists: '5JZ7CnR6gTvEMKX4g70Amv',
+		seed_tracks: '2MOoIbJWIYikwIXjBDe26i,5wxYxygyHpbgv0EXZuqb9V',
+		seed_genres: 'chill,ambient',
+		target_energy: '0.4',
+		target_danceability: '0.4'
+	}
+
+	const sleep = {
+		seed_artists: '0iwtwRDn1bcb5lbOsFfoFc',
+		seed_tracks: '5u5aVJKjSMJr4zesMPz7bL',
+		seed_genres: 'sleep,ambient',
+		target_energy: '0.2',
+		target_instrumentalness: '0.8',
+		target_loudness: '0.1'
+	}
+
+	const workout = {
+		seed_artists: '66CXWjxzNUsdJxJ2JdwvnR',
+		seed_tracks: '6HZILIRieu8S0iqY8kIKh',
+		seed_genres: 'work-out,hip-hop,pop',
+		target_energy: '0.7',
+		target_danceability: '0.5'
+	}
+
+	const angry = {
+		seed_artists: '4tususHNaR68xdgLstlGBA',
+		seed_tracks: '5OlieB5VdsOMuBuCtllXGW',
+		seed_genres: 'alternative,rock,heavy-metal',
+		target_energy: '0.7',
+		target_loudness: '0.6'
+	}
+
+	const drive = {
+		seed_artists: '0du5cEVh5yTK9QJze8zA0C',
+		seed_tracks: '7gF9RfiO8nBhFhBkLuiUrb',
+		seed_genres: 'pop,hip-hop,road-trip',
+		target_energy: '0.6',
+		target_danceability: '0.5'
+	}
+
+	const study = {
+		seed_artists: '1dABGukgZ8XKKOdd2rVSHM',
+		seed_tracks: '02lD05wrDhtJVJkQELhwkt',
+		seed_genres: 'study,ambient,chill',
+		target_energy: '0.3',
+		target_loudness: '0.3',
+		target_instrumentalness: '0.5'
+	}
+
+	const party = {
+		seed_artists: '64KEffDW9EtZ1y2vBYgq8T',
+		seed_tracks: '76hfruVvmfQbw0eYn1nmeC',
+		seed_genres: 'dance,party,electronic',
+		target_energy: '0.9',
+		target_danceability: '0.9',
+		target_loudness: '0.7',
+	}
+
+	const surprise = {
+		seed_artists: '0HdNDZaNm7xLt18v9aWDfe',
+		seed_tracks: '2pNtlK4DkAxwYpX0Sp2sgn',
+		seed_genres: 'trip-hop,disney,minimal-techno'
+	}
+
+
 	return (
 		<Box sx={{margin: 'auto', width: '50vw', textAlign: 'center'}}>
       	<Typography sx={{fontSize: 28, fontWeight: 900}}>Moods/Situations</Typography>

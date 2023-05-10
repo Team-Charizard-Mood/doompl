@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 export default function Navbar(): JSX.Element {
 	return (
 		<Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" elevation={0} sx={{ background: "none"}}>
         <Toolbar>
           <IconButton
             size="large"
@@ -20,11 +20,11 @@ export default function Navbar(): JSX.Element {
             sx={{ mr: 2 }}
           >
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: "black"}}>
             doompl
           </Typography>
-          <Link to='/create'><Button variant='contained'>Create Playlist</Button></Link>
-					<Link to='/account'><Button variant='contained'>Account</Button></Link>
+          <Link to='/create'><Button variant='text'>Create Playlist</Button></Link>
+					<Link to='/account'><Button variant='text'>Account</Button></Link>
         </Toolbar>
       </AppBar>
     </Box>
