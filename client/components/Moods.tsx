@@ -3,7 +3,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 
-export default function Moods(): JSX.Element {
+export default function Moods({username}): JSX.Element {
   const { state } = useLocation() as any;
   const { playlistName } = state;
   const [playlistUrl, setPlaylistUrl] = useState('');

@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Get all playlists
 router.get('/', playlistController.getPlaylists, (req, res) => {
-    res.json(res.locals.playlists);
+    res.json(res.locals);
 })
 
 // Create new playlist

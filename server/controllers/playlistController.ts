@@ -72,8 +72,8 @@ playlistController.getPlaylists = async (req: Request, res: Response, next: Next
 
     const getPlaylistQuery = `SELECT mood, url, name FROM Playlists JOIN Users ON Users.username = Playlists.username WHERE Users.username = '${username}'`;
     const playlists = await query(getPlaylistQuery);
-    // console.log(playlists.rows);
     res.locals.playlists = playlists.rows;
+    res.locals.username = username;
     return next();
 }
 

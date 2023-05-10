@@ -87,9 +87,6 @@ userController.createUser = async (
       values: [username],
     };
     query(insertQuery);
-    // const user = await query(insertQuery);
-    // console.log(user);
-    // res.locals.id = user.id;
     return next();
   } catch (err) {
     return next({
@@ -101,6 +98,7 @@ userController.createUser = async (
 };
 
 userController.getUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
   const { refresh_token } = req.cookies;
 
   const data: any = await fetch("https://accounts.spotify.com/api/token", {
@@ -120,30 +118,13 @@ userController.getUser = async (req: Request, res: Response, next: NextFunction)
   console.log('access token:', json.access_token);
   res.locals.access_token = json.access_token;
   return next();
+  } catch (err) {
+    return next({
+      log: "Error in userController.getUser: " + err,
+      status: 500,
+      message: { err: "An error occurred in userController.getUser" },
+    });
+  }
 }
-
-// userController.refresh = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   // let refresh_token = req.query.refresh_token;
-//   // const getRefreshToken = `SELECT FROM Users WHERE Users.username = `;
-
-//   var authOptions = {
-//     url: "https://accounts.spotify.com/api/token",
-//     headers: {
-//       Authorization:
-//         "Basic " +
-//         new Buffer.from(clientId + ":" + clientSecret).toString("base64"),
-//     },
-//     form: {
-//       grant_type: "refresh_token",
-//       refresh_token: refresh_token,
-//     },
-//     json: true,
-//   };
-// };
-
 
 export default userController;

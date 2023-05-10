@@ -33,8 +33,7 @@ const scope = 'user-read-private user-read-email playlist-modify-public playlist
 		<Box sx={{margin: '100px auto', width: '50vw', textAlign: 'center'}}>
 			<Typography sx={{fontSize: 50, fontWeight: 900}}>doompl</Typography>
       <Typography sx={{marginBottom: '50px'}}>Generate a Spotify playlist based on your mood or situation &#128526;</Typography>
-			<Button onClick={handleLogin} sx={{display: 'flex', gap: 1, margin: 'auto'}} variant='contained'><Typography>Login with Spotify</Typography><SvgIcon>{logo}</SvgIcon> </Button>
-			<Link href="/create"><Typography>Continue without logging in</Typography></Link>
+			<Button onClick={handleLogin} sx={{display: 'flex', gap: 1, margin: 'auto'}} variant='contained'><Typography>Login with Spotify</Typography><SvgIcon>{logo}</SvgIcon></Button>
 		</Box>
 	)
 }

@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import { Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-export default function Navbar(): JSX.Element {
+export default function Navbar({username}): JSX.Element {
 	return (
 		<Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" elevation={0} sx={{ background: "none"}}>
@@ -24,7 +24,7 @@ export default function Navbar(): JSX.Element {
             doompl
           </Typography>
           <Link to='/create'><Button variant='text'>Create Playlist</Button></Link>
-					<Link to='/account'><Button variant='text'>Account</Button></Link>
+					<Link to='/account'><Button variant='text'>{username}</Button></Link>
         </Toolbar>
       </AppBar>
     </Box>

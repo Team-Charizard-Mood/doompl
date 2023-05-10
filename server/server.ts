@@ -23,9 +23,6 @@ app.use(express.static(__dirname + '/client'));
 // const router: Router = express.Router();
 app.use('/api', router);
 
-// app.get('/', (req: Request, res: Response) => {
-//   res.json('Server says Hello, World!');
-// });
 
 type GlobalErrorType = {
   log: string;

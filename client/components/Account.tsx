@@ -9,7 +9,7 @@ import Divider from '@mui/material/Divider';
 import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-export default function BasicList() {
+export default function Account({username}) {
   const [playlists, setPlaylists] = useState([]);
 
   useEffect(() => {
@@ -18,18 +18,19 @@ export default function BasicList() {
         res.json()
       ))
       .then(data => {
-        setPlaylists(data as any)
+        setPlaylists(data.playlists as any)
       })
   }, [])
 
   return (
     <Box sx={{ width: '100%', maxWidth: 360 }}>
+      <Typography></Typography>
       <nav aria-label="main mailbox folders">
-        <List>
+        <List sx={{width: '100vw', margin: 'auto', display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center'}}>
         {playlists?.map(playlist => (
-            <ListItem disablePadding>
-            <Typography>{playlist.name}</Typography>
-              <Typography>{playlist.mood}</Typography>
+            <ListItem disablePadding sx={{width: 500, display: 'flex', flexDirection: 'column', gap: 1, textAlign: 'center', border: '2px solid black'}}>
+            <Typography variant='h6'>{playlist.name}</Typography>
+              <Typography variant='h6'>{playlist.mood}</Typography>
               <ListItemButton>
                 <Link to={playlist.url} target='_blank'>{playlist.url}</Link>
               </ListItemButton>
