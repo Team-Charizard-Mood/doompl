@@ -130,8 +130,8 @@ export default function Moods({ username }): JSX.Element {
 				<Button onClick={() => handleClick('study')}><Typography fontFamily='Montserrat' sx={{fontWeight: 500}}>Study</Typography></Button>
 				<Button onClick={() => handleClick('party')}><Typography fontFamily='Montserrat' sx={{fontWeight: 500}}>Party</Typography></Button>
 				<Button onClick={() => handleClick('surprise')}><Typography fontFamily='Montserrat' sx={{fontWeight: 500}}>Surprise</Typography></Button>
-			</Box>
 			<Typography fontFamily='Montserrat' sx={{ marginTop: '10px', fontSize: '20px' }}><Link style={{ textDecoration: 'none' }} to={playlistUrl} target='_blank'>{playlistUrl}</Link></Typography>
+			</Box>
 		</Box>
 	);
 }
