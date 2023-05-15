@@ -52,11 +52,11 @@ module.exports =  {
       proxy: {
         '/api/**': {
           target: 'http://localhost:3000/',
-          changeOrigin: true,
           secure: false,
           hot: true,
-          open: true
+          open: true,
         },
-      }
+      },
+      historyApiFallback: true,
     },
 };
